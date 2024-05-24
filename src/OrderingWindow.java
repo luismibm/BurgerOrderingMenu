@@ -1,9 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class OrderingWindow {
 
     public static class window extends JFrame {
+
+        JTextField initialPrice = new JTextField();
+        JTextField tax = new JTextField();
+        JTextField finalPrice = new JTextField();
 
         public window() {
 
@@ -197,6 +203,31 @@ public class OrderingWindow {
 
             JButton calculateButton = new JButton("Calcular");
             calculateButton.setBounds(330, 410, 260, 60);
+            calculateButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    double price = 8;
+                    if (burger3.isSelected() || burger4.isSelected()) price++;
+                    if (fries3.isSelected()) price++;
+                    if (extra1.isSelected()) price += 2;
+                    if (extra2.isSelected()) price += 0.5;
+                    if (extra3.isSelected()) price++;
+                    price += ((Integer) sauce1.getValue()) * 0.5;
+                    price += ((Integer) sauce2.getValue()) * 0.5;
+                    price += ((Integer) sauce3.getValue()) * 0.5;
+                    price += ((Integer) sauce4.getValue()) * 0.5;
+                    if (delivery2.isSelected()) price *= 0.8;
+
+                    double taxAmount = price * 0.21;
+                    double finalPrice = price + taxAmount;
+
+                    initialPrice.setText(String.format("%.2f", price));
+                    tax.setText(String.format("%.2f", taxAmount));
+                    OrderingWindow.window.this.finalPrice.setText(String.format("%.2f", finalPrice));
+
+                }
+            });
             add(calculateButton);
 
 
@@ -206,7 +237,6 @@ public class OrderingWindow {
             initialPriceLabel.setBounds(159, 480, 100, 30);
             add(initialPriceLabel);
 
-            JTextField initialPrice = new JTextField();
             initialPrice.setBounds(150, 510, 100, 30);
             initialPrice.setEditable(false);
             add(initialPrice);
@@ -215,7 +245,6 @@ public class OrderingWindow {
             taxLabel.setBounds(280, 480, 100, 30);
             add(taxLabel);
 
-            JTextField tax = new JTextField();
             tax.setBounds(260, 510, 100, 30);
             tax.setEditable(false);
             add(tax);
@@ -224,7 +253,6 @@ public class OrderingWindow {
             finalPriceLabel.setBounds(383, 480, 100, 30);
             add(finalPriceLabel);
 
-            JTextField finalPrice = new JTextField();
             finalPrice.setBounds(370, 510, 100, 30);
             finalPrice.setEditable(false);
             add(finalPrice);
